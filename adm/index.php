@@ -21,7 +21,7 @@ include_once("lib/lib_valida.php");
 <body>
     <?php
         echo "Bem vindo ". $_SESSION['nome'];
-        echo "<br> <a href='sair.php'>Sair </a>";
+        echo "<br> <a href='sair.php'>Sair </a> <br>";
 
         $url = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         // echo '<br>'. $url;
@@ -29,13 +29,36 @@ include_once("lib/lib_valida.php");
         $arquivo = limparurl($arquivo_or);
         // echo $arquivo;
 
-        $file = $arquivo . '.php';
+        $niveis_acesso_id = $_SESSION['niveis_acesso_id'];
         
-        if(file_exists($file)){
-            include $file;
+        $result_pagina = "SELECT pg.id, nivpg.id id_nivpg, nivpg.permissao
+        FROM paginas pg
+        INNER JOIN niveis_acessos_paginas nivpg ON nivpg.pagina_id=pg.id
+        WHERE pg.endereco='$arquivo' AND nivpg.pagina_id=pg.id
+        AND nivpg.niveis_acesso_id='$niveis_acesso_id' 
+        AND nivpg.permissao=1 LIMIT 1";
+
+        $resultado_pagina = mysqli_query($conn, $result_pagina);
+
+        if(($resultado_pagina) AND ($resultado_pagina->num_rows != 0)){
+            $row_pagina = mysqli_fetch_assoc($resultado_pagina);
+            echo "Id da página: " . $row_pagina['id'] . "<br>";
+            echo "Id da niveis_acessos_paginas: " . $row_pagina['id_nivpg'] . "<br>";
+            echo "Id da permissao: " . $row_pagina['permissao'] . "<br>"; // var_dump($row_pagina);
+
+            $file = $arquivo . '.php';
+        
+            if (file_exists($file)){
+                include $file;
+            } else {
+                include_once("home.php");
+            }
+
         } else {
+            echo " Seu nivel de acesso não permite acessar essa função! <br>";
             include_once("home.php");
         }
+
     ?>
 </body>
 </html>
