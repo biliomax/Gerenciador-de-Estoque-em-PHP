@@ -13,6 +13,7 @@
 
 <body>
     <div class="login-form">
+        <img src="img/RaimaxMouraSoftware.png" alt="Imagem" class="img-fluid w-25 rounded d-block mx-auto mb-3">
         <h2>Área Restrita</h2>
         <?php
         if (isset($_SESSION['msg'])) {
@@ -21,14 +22,14 @@
         } ?>
         <form method="POST" action="valida.php">
 
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="usuario" placeholder="Digite seu usuário" required>
+            <div class="form-label text-center mb-3">
                 <label for="">Usuário</label>
+                <input type="text" class="form-control" name="usuario" placeholder="Digite seu usuário" required>
             </div>
 
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" name="senha" placeholder="Digite sua senha" required>
+            <div class="form-label text-center mb-3">
                 <label for="senha">Senha</label>
+                <input type="password" class="form-control" name="senha" placeholder="Digite sua senha" required>
             </div>
             
             <!-- Botão de login -->
