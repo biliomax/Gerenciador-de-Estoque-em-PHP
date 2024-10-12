@@ -46,19 +46,20 @@ if ($btnLogin) {
                 header("Location: index.php");
 
             } else {
-                $_SESSION['msg'] = "Login ou senha incorreto";
+                $_SESSION['msg'] = "<div class='alert alert-danger'>Login ou senha incorreto</div>";
                 header("Location: login.php");
             }
             
         }
 
     } else {
-        $_SESSION['msg'] = "Login ou senha incorreto";
+        $_SESSION['msg'] = "<div class='alert alert-danger'>Login ou senha incorreto</div>";
         header("Location: login.php");
     }
 
 } else {
-    $_SESSION['msg'] = "Página não encontrada";
+
+    $_SESSION['msg'] = "<div class='alert alert-danger'>Página não encontrada</div>";
     header("Location: login.php");
 }
 
