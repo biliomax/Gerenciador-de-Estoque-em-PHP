@@ -62,7 +62,7 @@ fieldset[disabled] .btn-verde.focus {
 .header-admin{
     height: 50px;
     width: 100%;
-    background-color: #29aba4;
+    background-color: #0b5596;
 }
 /*Cor de fundo corpo*/
 body{
@@ -83,7 +83,7 @@ body{
 }
 
 .sidenav ul li a:hover{
-    background-color: #29aba4;
+    background-color: #0b5596;
 }
 
 /*Conteudo wel*/

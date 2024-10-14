@@ -66,5 +66,6 @@ include_once("lib/lib_valida.php");
                 ?>
             </div>
         </div>
+        <?php include_once("./include/rodape.php") ?>
     </body>
 </html>
