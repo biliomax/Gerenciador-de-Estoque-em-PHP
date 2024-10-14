@@ -23,19 +23,15 @@ include_once("lib/lib_valida.php");
 
         </div>
         <?php
-        include_once("include/menu.php");
+            include_once("include/menu.php");
         ?>
         <div class="col-sm-10">
             <div class="well conteudo">
                 <?php
-                echo "Bem vindo " . $_SESSION['nome'] . "<br>";
-                echo "<a href='sair.php'>Sair</a> <br>";
-
                 $url = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                //echo $url . "<br>";
                 $arquivo_or = (!empty($url)) ? $url : 'home';
                 $arquivo = limparurl($arquivo_or);
-                //echo $arquivo ."<br>";
+
                 $niveis_acesso_id = $_SESSION['niveis_acesso_id'];
 
                 $result_pagina = "SELECT pg.id, nivpg.id id_nivpg, nivpg.permissao 
@@ -50,9 +46,7 @@ include_once("lib/lib_valida.php");
                 $resultado_pagina = mysqli_query($conn, $result_pagina);
                 if (($resultado_pagina) AND ( $resultado_pagina->num_rows != 0)) {
                     $row_pagina = mysqli_fetch_assoc($resultado_pagina);
-                    echo "Id da página: " . $row_pagina['id'] . "<br>";
-                    echo "Id da niveis_acessos_paginas: " . $row_pagina['id_nivpg'] . "<br>";
-                    echo "Id da permissao: " . $row_pagina['permissao'] . "<br>";
+
                     $file = $arquivo . '.php';
                     if (file_exists($file)) {
                         include $file;
@@ -60,7 +54,7 @@ include_once("lib/lib_valida.php");
                         include_once("home.php");
                     }
                 } else {
-                    echo "Seu nivel de acesso não permite acessar essa função!<br>";
+                    $_SESSION['msg'] = "<div class='alert alert-danger'>Seu nivel de acesso não permite acessar essa função!</div>";
                     include_once("home.php");
                 }
                 ?>
