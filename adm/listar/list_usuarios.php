@@ -95,26 +95,44 @@ while($row_usuario = mysqli_fetch_array($resultado_usuario) ) { ?>
             $result_pg = "SELECT COUNT(id) AS num_result FROM usuarios";
             $resultado_pg = mysqli_query($conn, $result_pg);
             $row_pg = mysqli_fetch_assoc($resultado_pg);
-            // echo $row_pg['num_result'];
+
             // Quantidade de pagina
             $quantidade_pg = ceil($row_pg['num_result'] / $qnt_result_pg);
 
             // Limitar de link antes depois
             $MaxLinks = 2;
-            echo "<a href='".pg."/listar/list_usuarios?pagina=1'>Primeira </a>";
+            
+            echo "<nav class='text-center'>";
+            echo "<ul class='pagination'>";
+            echo "
+            <li>
+                <a href='".pg."/listar/list_usuarios?pagina=1' aria-label='Previous'>
+                    <span aria-hidden='true'>Primeira</span>
+                </a>
+            </li>";
             for ($iPag = $pagina - $MaxLinks; $iPag <= $pagina - 1; $iPag++) {
                 if ($iPag >= 1) {
-                    echo "<a href='".pg."/listar/list_usuarios?pagina=$iPag'>$iPag </a>";
+                    echo "<li><a href='".pg."/listar/list_usuarios?pagina=$iPag'>$iPag </a></li>";
                 }
             }
-            echo " $pagina ";
+            echo "
+            <li class='page-item active'>
+                <a href='#'>$pagina
+                    <span class='sr-only'></span>
+                </a>
+            </li>";
 
             for ($dPag = $pagina + 1; $dPag <= $pagina + $MaxLinks; $dPag++) {
                 if ($dPag <= $quantidade_pg) {
-                    echo "<a href='".pg."/listar/list_usuarios?pagina=$dPag'>$dPag </a>";
+                    echo "<li><a href='".pg."/listar/list_usuarios?pagina=$dPag'>$dPag </a></li>";
                 }
             }
-            echo "<a href='".pg."/listar/list_usuarios?pagina=$quantidade_pg'>Última </a>";
+            echo"
+            <li>
+                <a href='".pg."/listar/list_usuarios?pagina=$quantidade_pg' aria-label='Previous'>
+                    <span aria-hidden='true'>Última</span>
+                </a>
+            </li>";
           ?>
         </div>
     </div>
