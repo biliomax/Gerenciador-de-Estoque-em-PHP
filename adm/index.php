@@ -9,6 +9,7 @@ seguranca();
 include_once("config/config.php");
 include_once("config/conexao.php");
 include_once("lib/lib_valida.php");
+include_once("lib/lib_permissao.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
