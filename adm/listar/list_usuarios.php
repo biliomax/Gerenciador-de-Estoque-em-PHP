@@ -28,9 +28,20 @@ if ($botao_cad) { ?>
         $botao_ver = caregar_botao('visualizar/ver_usuarios', $conn);
         $botao_apagar = caregar_botao('processa/proc_apagar_usuarios', $conn);
 
+        /*Selecionar no banco de dados os usuários */
+        $pagina_atual = filter_input(INPUT_GET, 'pagina', FILTER_VALIDATE_INT);
+        $pagina = (!empty($pagina_atual)) ? $pagina_atual  : 1;
+
+        // Setar a quantidade de itens por pagina
+        $qnt_result_pg = 5;
+
+        // Calcular o inincio visualização
+        $inicio = ($qnt_result_pg * $pagina) - $qnt_result_pg;
+
         $result_usuario = "SELECT user.id, user.nome, user.email, user.niveis_acesso_id, niv.nome_nivel_acesso
         FROM usuarios user
-        INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id";
+        INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id LIMIT $inicio, $qnt_result_pg";
+
         $resultado_usuario = mysqli_query($conn, $result_usuario);
     ?>
 
@@ -79,6 +90,32 @@ while($row_usuario = mysqli_fetch_array($resultado_usuario) ) { ?>
                 
             </tbody>
           </table>
+          <?php
+            // Paginação - Somar a quantidade de usuários
+            $result_pg = "SELECT COUNT(id) AS num_result FROM usuarios";
+            $resultado_pg = mysqli_query($conn, $result_pg);
+            $row_pg = mysqli_fetch_assoc($resultado_pg);
+            // echo $row_pg['num_result'];
+            // Quantidade de pagina
+            $quantidade_pg = ceil($row_pg['num_result'] / $qnt_result_pg);
+
+            // Limitar de link antes depois
+            $MaxLinks = 2;
+            echo "<a href='".pg."/listar/list_usuarios?pagina=1'>Primeira </a>";
+            for ($iPag = $pagina - $MaxLinks; $iPag <= $pagina - 1; $iPag++) {
+                if ($iPag >= 1) {
+                    echo "<a href='".pg."/listar/list_usuarios?pagina=$iPag'>$iPag </a>";
+                }
+            }
+            echo " $pagina ";
+
+            for ($dPag = $pagina + 1; $dPag <= $pagina + $MaxLinks; $dPag++) {
+                if ($dPag <= $quantidade_pg) {
+                    echo "<a href='".pg."/listar/list_usuarios?pagina=$dPag'>$dPag </a>";
+                }
+            }
+            echo "<a href='".pg."/listar/list_usuarios?pagina=$quantidade_pg'>Última </a>";
+          ?>
         </div>
     </div>
 </div>
