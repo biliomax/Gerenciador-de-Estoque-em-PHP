@@ -56,13 +56,73 @@ fieldset[disabled] .btn-verde.focus {
     color: #d9534f;
     background-color: #fff;
 }
+
+/*Inicio Botão roxo Personalizado */
+.btn-roxo {
+    color: #fff;
+    background-color: #9e61f2;
+    border-color: #7526e0;
+}
+.btn-roxo:focus,
+.btn-roxo.focus {
+    color: #fff;
+    background-color: #8d47ec;
+    border-color: #651aca;
+}
+.btn-roxo:hover {
+    color: #fff;
+    background-color: #8d47ec;
+    border-color: #651aca;
+}
+.btn-roxo:active,
+.btn-roxo.active,
+.open > .dropdown-toggle.btn-roxo {
+    color: #fff;
+    background-color: #8d47ec;
+    border-color: #651aca;
+}
+.btn-roxo:active:hover,
+.btn-roxo.active:hover,
+.open > .dropdown-toggle.btn-roxo:hover,
+.btn-roxo:active:focus,
+.btn-roxo.active:focus,
+.open > .dropdown-toggle.btn-roxo:focus,
+.btn-roxo:active.focus,
+.btn-roxo.active.focus,
+.open > .dropdown-toggle.btn-roxo.focus {
+    color: #fff;
+    background-color: #8d47ec;
+    border-color: #651aca;
+}
+.btn-roxo:active,
+.btn-roxo.active,
+.open > .dropdown-toggle.btn-roxo {
+    background-image: none;
+}
+.btn-roxo.disabled:hover,
+.btn-roxo[disabled]:hover,
+fieldset[disabled] .btn-roxo:hover,
+.btn-roxo.disabled:focus,
+.btn-roxo[disabled]:focus,
+fieldset[disabled] .btn-roxo:focus,
+.btn-roxo.disabled.focus,
+.btn-roxo[disabled].focus,
+fieldset[disabled] .btn-roxo.focus {
+    background-color: #8d47ec;
+    border-color: #651aca;
+}
+.btn-roxo .badge {
+    color: #d9534f;
+    background-color: #fff;
+}
+/*Fim Botão roxo Personalizado */
 /*Fim Botão Personalizado */
 
 /*Linha superior*/
 .header-admin{
     height: 50px;
     width: 100%;
-    background-color: #0b5596;
+    background-color: #29aba4;
 }
 /*Cor de fundo corpo*/
 body{
@@ -83,7 +143,7 @@ body{
 }
 
 .sidenav ul li a:hover{
-    background-color: #0b5596;
+    background-color: #29aba4;
 }
 
 /*Conteudo wel*/
