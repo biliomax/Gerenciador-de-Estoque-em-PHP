@@ -65,18 +65,17 @@ if ($SendcadUsuario) {
         }
     }
 
-    // Se houver erro em algum campo será redirecionado para o formulário, não há erro no formulário tenta cadastrar no banco
+    /* 
+    * Se houver erro em algum campo será redirecionado para o formulário
+    * não há erro no formulário tenta cadastrar no banco 
+    */
     if ($erro) {
-        
+
         $_SESSION['dados'] = $dados;
 
         $url_destino = pg . "/cadastrar/cad_usuarios";
         header("Location: $url_destino");
-
     } else {
-        $niveis_acesso_id = 2;
-        $situacoes_usuario_id = 1;
-
         //Criptografar a senha
         $dados_validos['senha'] = password_hash($dados_validos['senha'], PASSWORD_DEFAULT);
 
@@ -86,19 +85,20 @@ if ($SendcadUsuario) {
                 '" . $dados_validos['email'] . "', 
                 '" . $dados_validos['usuario'] . "', 
                 '" . $dados_validos['senha'] . "', 
-                '$niveis_acesso_id',
-                '$situacoes_usuario_id', NOW()
-                )";
+                '" . $dados_validos['niveis_acesso_id'] . "', 
+                '" . $dados_validos['situacoes_usuario_id'] . "', 
+                NOW())";
 
         $resultado_usuario = mysqli_query($conn, $result_usuario);
 
         if (mysqli_insert_id($conn)) {
-            
+
             unset($_SESSION['dados']);
 
             $_SESSION['msg'] = "<div class='alert alert-success'>Usuário cadastrado com sucesso</div>";
             $url_destino = pg . "/listar/list_usuarios";
             header("Location: $url_destino");
+
         } else {
             $_SESSION['msg'] = "<div class='alert alert-danger'>Erro ao cadastrar o usuário</div>";
             $url_destino = pg . "/cadastrar/cad_usuarios";

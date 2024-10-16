@@ -24,27 +24,100 @@ if (!isset($seguranca)) {
 
     <form action="<?php echo pg; ?>/processa/proc_cad_usuarios" method="POST" class="form-horizontal" enctype="multipart/form-data">
         <div class="form-group">
-            <label class="col-sm-2 control-label">Nome</label>
+            <label class="col-sm-2 control-label">Nome:</label>
             <div class="col-sm-6">
-                <input type="e" name="nome" class="form-control" placeholder="Nome" value="<?php if (isset($_SESSION['dados']['nome'])) { echo $_SESSION['dados']['nome']; } ?>">
+                <input type="e" name="nome" class="form-control" placeholder="Nome" value="<?php if (isset($_SESSION['dados']['nome'])) {
+                                                                                                echo $_SESSION['dados']['nome'];
+                                                                                            } ?>">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">E-mail</label>
+            <label class="col-sm-2 control-label">E-mail:</label>
             <div class="col-sm-6">
-                <input type="email" name="email" class="form-control" placeholder="E-mail" value="<?php if (isset($_SESSION['dados']['email'])) { echo $_SESSION['dados']['email']; } ?>">
+                <input type="email" name="email" class="form-control" placeholder="E-mail" value="<?php if (isset($_SESSION['dados']['email'])) {
+                                                                                                        echo $_SESSION['dados']['email'];
+                                                                                                    } ?>">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Usuário</label>
+            <label class="col-sm-2 control-label">Usuário:</label>
             <div class="col-sm-6">
-                <input type="text" name="usuario" class="form-control" placeholder="Senha" value="<?php if (isset($_SESSION['dados']['usuario'])) { echo $_SESSION['dados']['usuario']; } ?>">
+                <input type="text" name="usuario" class="form-control" placeholder="Senha" value="<?php if (isset($_SESSION['dados']['usuario'])) {
+                                                                                                        echo $_SESSION['dados']['usuario'];
+                                                                                                    } ?>">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Usuário</label>
+            <label class="col-sm-2 control-label">Senha:</label>
             <div class="col-sm-6">
-                <input type="password" name="senha" class="form-control" placeholder="Senha alfanúmerica" value="<?php if (isset($_SESSION['dados']['senha'])) { echo $_SESSION['dados']['senha']; } ?>">
+                <input type="password" name="senha" class="form-control" placeholder="Senha alfanúmerica" value="<?php if (isset($_SESSION['dados']['senha'])) {
+                                                                                                                        echo $_SESSION['dados']['senha'];
+                                                                                                                    } ?>">
+            </div>
+        </div>
+        <?php
+        if ($_SESSION['niveis_acesso_id'] == 1) {
+            $result_niv_acesso = "SELECT * FROM niveis_acessos";
+        } else {
+            $result_niv_acesso = "SELECT * FROM niveis_acessos WHERE ordem >
+                    (
+                        SELECT ordem FROM niveis_acessos 
+                        WHERE id = '" . $_SESSION['niveis_acesso_id'] . "'
+                    )";
+        }
+
+        $resultado_niv_acesso = mysqli_query($conn, $result_niv_acesso);
+        ?>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Nível de Acesso:</label>
+            <div class="col-sm-10">
+                <select name="niveis_acesso_id">
+                    <option value="">Selecione</option>
+                    <?php
+                    while ($row_niv_acesso = mysqli_fetch_array($resultado_niv_acesso)) {
+                        if (isset($_SESSION['dados']['niveis_acesso_id']) and ($_SESSION['dados']['niveis_acesso_id'] == $row_niv_acesso['id'])) {
+                            echo "
+                                <option value='" . $row_niv_acesso['id'] . "' selected>"
+                                . $row_niv_acesso['nome_nivel_acesso'] . "
+                                </option>";
+                        } else {
+                            echo "
+                                <option value='" . $row_niv_acesso['id'] . "'>"
+                                . $row_niv_acesso['nome_nivel_acesso'] . "
+                                </option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+
+        <?php
+            $result_sit_usuario = "SELECT * FROM situacoes_usuarios";
+            $resultado_sit_usuario = mysqli_query($conn, $result_sit_usuario);
+        ?>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Situação do Usuário:</label>
+            <div class="col-sm-10">
+                <select name="situacoes_usuario_id">
+                    <option value="">Selecione</option>
+                    <?php
+                    while ($row_sit_usuario = mysqli_fetch_array($resultado_sit_usuario)) {
+                        if (isset($_SESSION['dados']['situacoes_usuario_id']) and ($_SESSION['dados']['niveis_acesso_id'] == $row_sit_usuario['id'])) {
+                            echo "
+                                    <option value='" . $row_sit_usuario['id'] . "' selected>"
+                                        . $row_sit_usuario['nome_situacao'] . "
+                                    </option>";
+                        } else {
+                            echo "
+                                    <option value='" . $row_sit_usuario['id'] . "'>"
+                                        . $row_sit_usuario['nome_situacao'] . "
+                                    </option>";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
         </div>
         <div class="form-group">
