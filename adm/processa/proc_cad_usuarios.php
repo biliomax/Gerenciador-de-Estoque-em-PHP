@@ -67,8 +67,12 @@ if ($SendcadUsuario) {
 
     // Se houver erro em algum campo será redirecionado para o formulário, não há erro no formulário tenta cadastrar no banco
     if ($erro) {
+        
+        $_SESSION['dados'] = $dados;
+
         $url_destino = pg . "/cadastrar/cad_usuarios";
         header("Location: $url_destino");
+
     } else {
         $niveis_acesso_id = 2;
         $situacoes_usuario_id = 1;
@@ -89,6 +93,9 @@ if ($SendcadUsuario) {
         $resultado_usuario = mysqli_query($conn, $result_usuario);
 
         if (mysqli_insert_id($conn)) {
+            
+            unset($_SESSION['dados']);
+
             $_SESSION['msg'] = "<div class='alert alert-success'>Usuário cadastrado com sucesso</div>";
             $url_destino = pg . "/listar/list_usuarios";
             header("Location: $url_destino");

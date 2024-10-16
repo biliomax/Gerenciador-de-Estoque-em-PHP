@@ -26,25 +26,25 @@ if (!isset($seguranca)) {
         <div class="form-group">
             <label class="col-sm-2 control-label">Nome</label>
             <div class="col-sm-6">
-                <input type="e" name="nome" class="form-control" placeholder="Nome">
+                <input type="e" name="nome" class="form-control" placeholder="Nome" value="<?php if (isset($_SESSION['dados']['nome'])) { echo $_SESSION['dados']['nome']; } ?>">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">E-mail</label>
             <div class="col-sm-6">
-                <input type="email" name="email" class="form-control" placeholder="E-mail">
+                <input type="email" name="email" class="form-control" placeholder="E-mail" value="<?php if (isset($_SESSION['dados']['email'])) { echo $_SESSION['dados']['email']; } ?>">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Usuário</label>
             <div class="col-sm-6">
-                <input type="text" name="usuario" class="form-control" placeholder="Senha">
+                <input type="text" name="usuario" class="form-control" placeholder="Senha" value="<?php if (isset($_SESSION['dados']['usuario'])) { echo $_SESSION['dados']['usuario']; } ?>">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Usuário</label>
             <div class="col-sm-6">
-                <input type="password" name="senha" class="form-control" placeholder="Senha alfanúmerica">
+                <input type="password" name="senha" class="form-control" placeholder="Senha alfanúmerica" value="<?php if (isset($_SESSION['dados']['senha'])) { echo $_SESSION['dados']['senha']; } ?>">
             </div>
         </div>
         <div class="form-group">
