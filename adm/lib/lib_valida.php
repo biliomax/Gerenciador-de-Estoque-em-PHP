@@ -61,3 +61,45 @@ function validarEmail($email) {
         return false;
     }
 }
+
+//validar exetensão da imagem
+function validarExtensao($foto) 
+{
+    switch($foto):
+    case 'image/png';
+    case 'image/x-png';
+        return true;
+            break;
+    case 'image/jpeg';
+    case 'image/pjpeg';
+        return true;
+            break;
+    default:
+        return false;
+    endswitch;
+}
+
+/**
+ * Retirar caracteres especial
+ */
+function caracterEspecial($nome_imagem) {
+        // substituir os caracteres especiais
+        $original = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:,\\\'<>°ºª';
+        $substituir = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                ';
+
+        $nome_imagem_es = strtr(
+            mb_convert_encoding($nome_imagem, 'ISO-8859-1', 'UTF-8'), 
+            mb_convert_encoding($original, 'ISO-8859-1', 'UTF-8'), 
+            $substituir
+        );
+
+            // Substituir o espaço em branco pelo traço:
+            $nome_imagem_br = str_replace(' ', '-', $nome_imagem_es);
+
+            $nome_imagem_tr = str_replace(array('----', '---', '--'), '-', $nome_imagem_br);
+
+            // converter para minusculo:
+            $nome_imagem_mi = strtolower($nome_imagem_tr);
+
+            return $nome_imagem_mi;
+}
