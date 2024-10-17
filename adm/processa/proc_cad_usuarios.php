@@ -10,39 +10,38 @@ if ($SendcadUsuario) {
     $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
     $dados['senha'] = str_replace(" ", "", $dados['senha']);
+    $dados['usuario'] = str_replace(" ", "", $dados['usuario']);
+
     //validar nenhum campo vazio
     $erro = false;
     $dados_validos = vazio($dados);
     if (!$dados_validos) {
         $erro = true;
         $_SESSION['msg'] = "<div class='alert alert-danger'>Necessários preencher todos os campos para cadastrar o usuário!</div>";
-    }
-    //Validar e-mail
-    elseif (!validarEmail($dados_validos['email'])) {
+    
+        //Validar e-mail
+    } elseif (!validarEmail($dados_validos['email'])) { 
         $erro = true;
         $_SESSION['msg'] = "<div class='alert alert-danger'>E-mail inválido!</div>";
-    }
-
-    //validar senha
-    elseif ((strlen($dados_validos['senha'])) < 6) {
+        
+        //validar senha
+    } elseif ((strlen($dados_validos['senha'])) < 6) {  
         $erro = true;
         $_SESSION['msg'] = "<div class='alert alert-danger'>A senha deve ter no mínimo 6 caracteres!</div>";
     } elseif (stristr($dados_validos['senha'], "'")) {
         $erro = true;
         $_SESSION['msg'] = "<div class='alert alert-danger'>Caracter ( ' ) utilizado na senha inválido!</div>";
-    }
-
-    //Validar usuário
-    elseif (stristr($dados_validos['usuario'], "'")) {
+        
+        //Validar usuário
+    } elseif (stristr($dados_validos['usuario'], "'")) { 
         $erro = true;
         $_SESSION['msg'] = "<div class='alert alert-danger'>Caracter ( ' ) utilizado no usuário inválido!</div>";
     } elseif ((strlen($dados_validos['usuario'])) < 6) {
         $erro = true;
         $_SESSION['msg'] = "<div class='alert alert-danger'>O usuário deve ter no mínimo 6 caracteres!</div>";
-    }
-    
-    //validar extensão da imagem
-    elseif (!empty ($_FILES['foto']['name'])) {
+
+        //validar extensão da imagem
+    } elseif (!empty($_FILES['foto']['name'])) {  
 
         $foto = $_FILES['foto'];
 
@@ -55,13 +54,8 @@ if ($SendcadUsuario) {
             $valor_foto = "'".$foto['name']."',";
         }
         
-    } elseif (empty ($_FILES['foto']['name'])) {
-        $campo_foto = "";
-        $valor_foto = "";
-    }
-
-     else {
         // Proibir cadastro de usuário duplicado
+    } else {
         $result_usuario = "SELECT id FROM usuarios 
         WHERE usuario='" . $dados_validos['usuario'] . "' LIMIT 1";
 
@@ -82,6 +76,12 @@ if ($SendcadUsuario) {
             $erro = true;
             $_SESSION['msg'] = "<div class='alert alert-danger'>Este e-mail já está cadastrado!</div>";
         }
+    }
+
+    // Criar as variaveis da foto quando a mesma não está sendo cadastrada
+    if (empty($_FILES['foto']['name'])) {
+        $campo_foto = "";
+        $valor_foto = "";
     }
 
     /* 
@@ -109,13 +109,17 @@ if ($SendcadUsuario) {
                 '" . $dados_validos['situacoes_usuario_id'] . "', 
                 NOW())";
 
-        echo $result_usuario;
-
         $resultado_usuario = mysqli_query($conn, $result_usuario);
 
         if (mysqli_insert_id($conn)) {
 
             unset($_SESSION['dados']);
+
+            // Redimensionar a imagem e fazer upload
+            if (!empty($_FILES['foto']['name'])) {
+                $destino = "assets/imagens/usuario/". mysqli_insert_id($conn)."/";
+                upload($foto, $destino, 200, 200);
+            }
 
             $_SESSION['msg'] = "<div class='alert alert-success'>Usuário cadastrado com sucesso</div>";
             $url_destino = pg . "/listar/list_usuarios";

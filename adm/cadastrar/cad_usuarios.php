@@ -74,15 +74,9 @@ if (!isset($seguranca)) {
                     <?php
                     while ($row_niv_acesso = mysqli_fetch_array($resultado_niv_acesso)) {
                         if (isset($_SESSION['dados']['niveis_acesso_id']) and ($_SESSION['dados']['niveis_acesso_id'] == $row_niv_acesso['id'])) {
-                            echo "
-                                <option value='" . $row_niv_acesso['id'] . "' selected>"
-                                . $row_niv_acesso['nome_nivel_acesso'] . "
-                                </option>";
+                            echo "<option value='".$row_niv_acesso['id']."' selected>".$row_niv_acesso['nome_nivel_acesso']."</option>";
                         } else {
-                            echo "
-                                <option value='" . $row_niv_acesso['id'] . "'>"
-                                . $row_niv_acesso['nome_nivel_acesso'] . "
-                                </option>";
+                            echo "<option value='".$row_niv_acesso['id']. "'>".$row_niv_acesso['nome_nivel_acesso']. "</option>";
                         }
                     }
                     ?>
@@ -101,17 +95,12 @@ if (!isset($seguranca)) {
                 <select name="situacoes_usuario_id">
                     <option value="">Selecione</option>
                     <?php
+
                     while ($row_sit_usuario = mysqli_fetch_array($resultado_sit_usuario)) {
-                        if (isset($_SESSION['dados']['situacoes_usuario_id']) and ($_SESSION['dados']['niveis_acesso_id'] == $row_sit_usuario['id'])) {
-                            echo "
-                                    <option value='" . $row_sit_usuario['id'] . "' selected>"
-                                . $row_sit_usuario['nome_situacao'] . "
-                                    </option>";
+                        if (isset($_SESSION['dados']['situacoes_usuario_id']) and ($_SESSION['dados']['situacoes_usuario_id'] == $row_sit_usuario['id'])) {
+                            echo "<option value='".$row_sit_usuario['id']."' selected>".$row_sit_usuario['nome_situacao']."</option>";
                         } else {
-                            echo "
-                                    <option value='" . $row_sit_usuario['id'] . "'>"
-                                . $row_sit_usuario['nome_situacao'] . "
-                                    </option>";
+                            echo "<option value='".$row_sit_usuario['id']. "'>".$row_sit_usuario['nome_situacao']. "</option>";
                         }
                     }
                     ?>
@@ -134,3 +123,5 @@ if (!isset($seguranca)) {
         </div>
     </form>
 </div>
+<?php
+unset($_SESSION['dados']);
