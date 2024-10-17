@@ -26,7 +26,7 @@ if (!isset($seguranca)) {
         <div class="form-group">
             <label class="col-sm-2 control-label">Nome:</label>
             <div class="col-sm-6">
-                <input type="e" name="nome" class="form-control" placeholder="Nome" value="<?php if (isset($_SESSION['dados']['nome'])) { echo $_SESSION['dados']['nome']; } ?>">
+                <input type="text" name="nome" class="form-control" placeholder="Nome" value="<?php if (isset($_SESSION['dados']['nome'])) { echo $_SESSION['dados']['nome']; } ?>">
             </div>
         </div>
         <div class="form-group">
