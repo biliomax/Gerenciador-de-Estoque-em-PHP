@@ -43,9 +43,24 @@ if (!isset($seguranca)) {
     // Calcular o inincio visualização
     $inicio = ($qnt_result_pg * $pagina) - $qnt_result_pg;
 
-    $result_usuario = "SELECT user.id, user.nome, user.email, user.niveis_acesso_id, niv.nome_nivel_acesso
+    if ($_SESSION['niveis_acesso_id'] == 1) {
+
+        $result_usuario = "SELECT user.id, user.nome, user.email, user.niveis_acesso_id, niv.nome_nivel_acesso
         FROM usuarios user
-        INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id LIMIT $inicio, $qnt_result_pg";
+        INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id
+        ORDER BY id DESC
+        LIMIT $inicio, $qnt_result_pg";
+    } else {
+
+        $result_usuario = "SELECT user.id, user.nome, user.email, user.niveis_acesso_id, niv.nome_nivel_acesso
+        FROM usuarios user
+        INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id
+        WHERE ordem > (
+            SELECT ordem FROM niveis_acessos 
+                WHERE id = '".$_SESSION['niveis_acesso_id']."')
+        ORDER BY id DESC
+        LIMIT $inicio, $qnt_result_pg";
+    }
 
     $resultado_usuario = mysqli_query($conn, $result_usuario);
     ?>
@@ -95,7 +110,16 @@ if (!isset($seguranca)) {
             </table>
             <?php
             // Paginação - Somar a quantidade de usuários
-            $result_pg = "SELECT COUNT(id) AS num_result FROM usuarios";
+            if ($_SESSION['niveis_acesso_id'] == 1) {
+                $result_pg = "SELECT COUNT(id) AS num_result FROM usuarios";
+            } else {
+                $result_pg = "SELECT COUNT(user.id) AS num_result
+                FROM usuarios user
+                INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id
+                WHERE ordem >(
+                    SELECT ordem FROM niveis_acessos WHERE id = '".$_SESSION['niveis_acesso_id']."')";
+            }
+            
             $resultado_pg = mysqli_query($conn, $result_pg);
             $row_pg = mysqli_fetch_assoc($resultado_pg);
 

@@ -8,7 +8,17 @@ $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 // Verificar a existencia do id na URL
 if (!empty($id)) {
-    $result_usuario = "SELECT * FROM usuarios WHERE id='$id'";
+
+    if ($_SESSION['niveis_acesso_id'] == 1) {
+        $result_usuario = "SELECT * FROM usuarios WHERE id='$id'";
+    } else {
+        $result_usuario = "SELECT user.*, niv.nome_nivel_acesso FROM usuarios user
+        INNER JOIN niveis_acessos niv on niv.id=user.niveis_acesso_id
+        WHERE niv.ordem > (
+            SELECT ordem FROM niveis_acessos 
+                WHERE id ='".$_SESSION['niveis_acesso_id']. "') AND user.id='$id' LIMIT 1";
+    }
+
     $resultado_usuario = mysqli_query($conn, $result_usuario);
 
     // Verificar se encontrou usuário no bando de dados
@@ -31,7 +41,7 @@ if (!empty($id)) {
             }
             ?>
 
-            <form action="<?php echo pg; ?>/processa/proc_cad_usuarios" method="POST" class="form-horizontal" enctype="multipart/form-data">
+            <form action="<?php echo pg; ?>/processa/proc_edit_usuarios" method="POST" class="form-horizontal" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?php echo $row_usuario['id']; ?>">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Nome:</label>
