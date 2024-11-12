@@ -98,9 +98,7 @@ if (!isset($seguranca)) {
                                     echo "<a href='" . pg . "/editar/edit_usuarios?id=" . $row_usuario['id'] . "'><button type='button' class='btn btn-xs btn-warning'>Editar</button></a> ";
                                 }
                                 if ($botao_apagar) { ?>
-                                    <a href="<?php echo pg ?>/processa/proc_apagar_usuarios">
-                                        <button type="button" class="btn btn-xs btn-danger">Apagar</button>
-                                    </a>
+                                    <a href="<?php echo pg. "/processa/proc_apagar_usuarios?id=" .$row_usuario['id']?>."><button type="button" class="btn btn-xs btn-danger">Apagar</button> </a>
                                 <?php } ?>
                             </td>
                         </tr>
