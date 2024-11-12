@@ -35,7 +35,7 @@ if (!isset($seguranca)) {
 
     /*Selecionar no banco de dados os usuários */
     $pagina_atual = filter_input(INPUT_GET, 'pagina', FILTER_VALIDATE_INT);
-    $pagina = (!empty($pagina_atual)) ? $pagina_atual  : 1;
+    $pagina = (!empty($pagina_atual)) ? $pagina_atual : 1;
 
     // Setar a quantidade de itens por pagina
     $qnt_result_pg = 5;
@@ -57,7 +57,7 @@ if (!isset($seguranca)) {
         INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id
         WHERE ordem > (
             SELECT ordem FROM niveis_acessos 
-                WHERE id = '".$_SESSION['niveis_acesso_id']."')
+                WHERE id = '" . $_SESSION['niveis_acesso_id'] . "')
         ORDER BY id DESC
         LIMIT $inicio, $qnt_result_pg";
     }
@@ -88,9 +88,7 @@ if (!isset($seguranca)) {
                             <td class="text-right">
                                 <?php if ($botao_ver) { ?>
                                     <a href="<?php echo pg ?>/visualizar/ver_usuarios">
-                                        <button
-                                            type="button"
-                                            class="btn btn-xs btn-success">Visualizar
+                                        <button type="button" class="btn btn-xs btn-success">Visualizar
                                         </button>
                                     </a>
                                 <?php }
@@ -98,7 +96,9 @@ if (!isset($seguranca)) {
                                     echo "<a href='" . pg . "/editar/edit_usuarios?id=" . $row_usuario['id'] . "'><button type='button' class='btn btn-xs btn-warning'>Editar</button></a> ";
                                 }
                                 if ($botao_apagar) { ?>
-                                    <a href="<?php echo pg. "/processa/proc_apagar_usuarios?id=" .$row_usuario['id']?>."><button type="button" class="btn btn-xs btn-danger">Apagar</button> </a>
+                                    <a href="<?php echo pg . '/processa/proc_apagar_usuarios?id=' . $row_usuario['id']; ?>"
+                                        onclick="return confirm('Deseja mesmo apagar?');">
+                                        <button type="button" class="btn btn-xs btn-danger">Apagar</button></a>
                                 <?php } ?>
                             </td>
                         </tr>
@@ -115,9 +115,9 @@ if (!isset($seguranca)) {
                 FROM usuarios user
                 INNER JOIN niveis_acessos niv ON niv.id=user.niveis_acesso_id
                 WHERE ordem >(
-                    SELECT ordem FROM niveis_acessos WHERE id = '".$_SESSION['niveis_acesso_id']."')";
+                    SELECT ordem FROM niveis_acessos WHERE id = '" . $_SESSION['niveis_acesso_id'] . "')";
             }
-            
+
             $resultado_pg = mysqli_query($conn, $result_pg);
             $row_pg = mysqli_fetch_assoc($resultado_pg);
 
